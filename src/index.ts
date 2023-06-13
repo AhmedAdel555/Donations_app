@@ -7,7 +7,7 @@ import rateLimit from 'express-rate-limit';
 const app = express();
 
 // json middleware
-app.use(express.json);
+app.use(express.json());
 // security middleware
 app.use(helmet());
 // log middleware
@@ -18,16 +18,19 @@ app.use(rateLimit({
 	max: 100, // Limit each IP to 100 requests per `window` (here, per 15 minutes)
 	standardHeaders: true, // Return rate limit info in the `RateLimit-*` headers
 	legacyHeaders: false, // Disable the `X-RateLimit-*` headers
+  message : "many requests in 1 minutes"
   })
 );
 
-app.get("/", (req: Request, res: Response) => {
+app.get('/', (req: Request, res: Response) => {
     return res.status(200).json({
       message: "Hello World ❤"
     });
 });
 
 // start the server
-app.listen(3000);
+app.listen(3000, () => {
+  console.log("server is running on port 3000")
+});
 
-export default app ;
+export default app;
