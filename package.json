@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "npm run build && jasmine",
     "dev": "nodemon src/index.ts",
     "build": "tsc",
     "start": "npm run build && node dist/index.js"
@@ -25,5 +25,12 @@
     "express": "^4.18.2",
     "nodemon": "^2.0.22",
     "ts-node": "^10.9.1"
+  },
+  "devDependencies": {
+    "@types/jasmine": "^4.3.2",
+    "@types/supertest": "^2.0.12",
+    "jasmine": "^5.0.1",
+    "jasmine-spec-reporter": "^7.0.0",
+    "supertest": "^6.3.3"
   }
 }
