@@ -3,6 +3,9 @@ import helmet from "helmet";
 import morgan from "morgan";
 import rateLimit from 'express-rate-limit';
 import ServerError from "./interfaces/serverError";
+import dotenv from "dotenv";
+
+dotenv.config()
 // create the server
 const app = express();
 
@@ -46,8 +49,9 @@ app.use((error: ServerError , req : Request, res: Response , next: NextFunction)
 })
 
 // start the server
-app.listen(3000, () => {
-  console.log("server is running on port 3000")
+app.listen(process.env.Port, () => {
+  console.log(process.env)
+  console.log(process.env.Port)
 });
 
 export default app;
