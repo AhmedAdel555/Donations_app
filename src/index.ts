@@ -1,8 +1,8 @@
-import express, {Application, Request, Response} from "express";
+import express, {Application, Request, Response, NextFunction} from "express";
 import helmet from "helmet";
 import morgan from "morgan";
 import rateLimit from 'express-rate-limit';
-
+import ServerError from "./interfaces/serverError";
 // create the server
 const app = express();
 
@@ -22,11 +22,28 @@ app.use(rateLimit({
   })
 );
 
+app.use((req : Request, res: Response , next: NextFunction) => {
+  res.setHeader('Access-Control-Allow-Origin', '*');
+  res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, PATCH');
+  res.setHeader('Access-Control-Allow-Headers', 'Content-Type , Authorization');
+  next();
+})
+
 app.get('/', (req: Request, res: Response) => {
     return res.status(200).json({
       message: "Hello World ❤"
     });
 });
+
+app.use("/", (req : Request, res: Response) => {
+    res.status(404).json({message: "Page not found"});
+})
+
+app.use((error: ServerError , req : Request, res: Response , next: NextFunction) => {
+    const errorMessage = error.message || "whoops!! some thing went wrong";
+    const errorStatus = error.status || 500;
+    res.status(errorStatus).json({message: errorMessage})
+})
 
 // start the server
 app.listen(3000, () => {
