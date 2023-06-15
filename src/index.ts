@@ -4,7 +4,6 @@ import morgan from "morgan";
 import rateLimit from 'express-rate-limit';
 import ServerError from "./interfaces/serverError";
 import dotenv from "dotenv";
-
 dotenv.config()
 // create the server
 const app = express();
@@ -51,7 +50,7 @@ app.use((error: ServerError , req : Request, res: Response , next: NextFunction)
 // start the server
 app.listen(process.env.Port, () => {
   console.log(process.env)
-  console.log(process.env.Port)
+  console.log(process.env.PORT)
 });
 
 export default app;
