@@ -4,6 +4,7 @@ import morgan from "morgan";
 import rateLimit from 'express-rate-limit';
 import ServerError from "./interfaces/serverError";
 import dotenv from "dotenv";
+import routers from "./routes"
 dotenv.config()
 // create the server
 const app = express();
@@ -31,18 +32,14 @@ app.use((req : Request, res: Response , next: NextFunction) => {
   next();
 })
 
-app.get('/', (req: Request, res: Response) => {
-    return res.status(200).json({
-      message: "Hello World ❤"
-    });
-});
+app.use("/api", routers);
 
-app.use("/", (req : Request, res: Response) => {
+app.use((req : Request, res: Response) => {
     res.status(404).json({message: "Page not found"});
 })
 
 app.use((error: ServerError , req : Request, res: Response , next: NextFunction) => {
-    const errorMessage = error.message || "whoops!! some thing went wrong";
+    const errorMessage = error.message || "whoops!! some thing went wrong in server";
     const errorStatus = error.status || 500;
     res.status(errorStatus).json({message: errorMessage})
 })
